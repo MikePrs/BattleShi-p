@@ -43,6 +43,7 @@ public class Battle extends GameSetUp implements ActionListener {
     boolean flag2 = false;
 
     ArrayList<Integer> rndList = new ArrayList<>();
+    ArrayList<Integer> clickList = new ArrayList<>();
 
     int count1 = 0, count2 = 0;
     int winCount = 0;
@@ -54,11 +55,12 @@ public class Battle extends GameSetUp implements ActionListener {
 
         board = in.InitMatrix();
         rndList = in.IntList();
+        clickList = in.IntList();
 
         panelLC.setLayout(new GridLayout(10, 10));
         panelRC.setLayout(new GridLayout(10, 10));
 
-        for (int i = 0; i < 100; i++) {
+        for (i = 0; i < 100; i++) {
             b1[i] = new JButton("" + i);
             b1[i].setBackground(Color.cyan);
 
@@ -67,51 +69,49 @@ public class Battle extends GameSetUp implements ActionListener {
             b2[i].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    count2++;
-                    flag2 = true;
-                    flag = false;
                     JButton t = (JButton) e.getSource();
-                    int pos = Integer.parseInt(t.getText());
-                    for (int j = 0; j < 5; j++) {
+                    if (clickList.contains(Integer.valueOf(t.getText()))) { // prevent double clicking 
+                        clickList.remove(Integer.valueOf(t.getText()));
+                        count2++;
+                        flag2 = true;
+                        flag = false;
+                        
+                        int pos = Integer.parseInt(t.getText());
+                        for (int j = 0; j < 5; j++) {
 
-                        for (int i = 0; i < board[j].length; i++) { // -1 eixe 
-                            if (pos == board[j][i]) {
-                                winCount++;
-                                flag = true;
-                                t.setBackground(Color.red);
-                                System.out.println("hit " + t.getText() + " " + count2);
-                                if (winCount == 18) {
-                                    JOptionPane.showOptionDialog(null, "You Win !", "Results", JOptionPane.DEFAULT_OPTION,
-                                            JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
+                            for (int i = 0; i < board[j].length; i++) { // -1 eixe 
+                                if (pos == board[j][i]) {
+                                    winCount++;
+                                    flag = true;
+                                    t.setBackground(Color.red);
+                                    System.out.println("hit " + t.getText() + " " + count2);
+                                    if (winCount == 18) {
+                                        JOptionPane.showOptionDialog(null, "You Win !", "Results", JOptionPane.DEFAULT_OPTION,
+                                                JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
+                                    }
+                                    break;
                                 }
-                                break;
-                            }
-                            if ((flag == false)) {
-                                t.setBackground(Color.blue);
-                                System.out.println("no " + t.getText() + " " + count2);
+                                if ((flag == false)) {
+                                    t.setBackground(Color.blue);
+                                    System.out.println("no " + t.getText() + " " + count2);
+                                }
                             }
                         }
-                    }
 
-                    if (flag2 == true) {
-                        // int x = rnd.Random();
-                        int x = rnd.RandomHit(rndList);
+                        if (flag2 == true) {
+                            int x = rnd.RandomHit(rndList);
 
-                        b1[x].setBackground(Color.blue);
+                            b1[x].setBackground(Color.blue);
 
-//                        while (rndList.contains(x)) {
-//                            x = rnd.Random();
-//                            System.out.println("random computer on same number " + x);
-//                        }
-                        count1++;
-//                        rndList.add(x);
-                        // rndList.remove(x);
-                        System.out.println("random computer hit " + b1[x].getText() + " " + count1);
+                            count1++;
+                            System.out.println("random computer hit " + b1[x].getText() + " " + count1);
+                        }
                     }
                 }
             });
             panelRC.add(b2[i]);
             panelLC.add(b1[i]);
+
         }
 
         panelL.setLayout(new BorderLayout());
@@ -124,8 +124,8 @@ public class Battle extends GameSetUp implements ActionListener {
 
         mainPanel.add(panelL, BorderLayout.WEST);
         mainPanel.add(panelR, BorderLayout.EAST);
-        
-        return mainPanel ;
+
+        return mainPanel;
     }
 
     @Override
