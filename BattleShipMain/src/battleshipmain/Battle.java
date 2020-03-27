@@ -85,7 +85,7 @@ public class Battle extends GameSetUp implements ActionListener {
                                     flag = true;
                                     t.setBackground(Color.red);
                                     System.out.println("hit " + t.getText() + " " + count2);
-                                    if (winCount == 18) {
+                                    if (winCount == 17) {
                                         JOptionPane.showOptionDialog(null, "You Win !", "Results", JOptionPane.DEFAULT_OPTION,
                                                 JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
                                     }

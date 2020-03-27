@@ -10,6 +10,7 @@ import java.awt.Button;
 import java.awt.Color;
 import static java.awt.Color.cyan;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Insets;
@@ -18,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.BoxLayout;
 import javax.swing.InputMap;
@@ -26,6 +28,7 @@ import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.TransferHandler;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -43,26 +46,34 @@ public class GameSetUp {
     JPanel jPanelCWS = new JPanel(new BorderLayout()); //jPanelCENTER WEST SOUTH
     JPanel jPanelS = new JPanel(new BorderLayout()); //jPanelSOUTH
     JPanel pw, pw5;
-   
+
     JButton jButton_turn, jButton_start;
 
     JButton[] t = new JButton[25];
-    JButton[] b = new JButton[100];
+    public JButton[] b = new JButton[100];
 
     JButton temp = new JButton();
     Color oldcolor;
 
     boolean flag = false;
     boolean flagP = false;
-    int size = 0;
+    public boolean flagC = false;
+    public int size = 0;
     JButton[] tmp = new JButton[size];
     int i;
 
     int pos;
-
+    int tempSize;
+    ArrayList<Integer> List = new ArrayList<>();
+    Cursor cursor = new Cursor(Cursor.HAND_CURSOR);
+    
+    Cursors cur = new Cursors();
+    
     public void GameSetUp() {
-        
+
         Battle battle = new Battle();
+        Init in = new Init();
+        List = in.IntList();
         //100 koumpia topothetisis ploion
         pw = new JPanel(new GridLayout(10, 10));
         for (i = 0; i < 100; i++) {
@@ -78,19 +89,23 @@ public class GameSetUp {
 
                 public void mouseEntered(MouseEvent me) {
                     if (flag) {
-                        flagP=false;
+                        flagP = false;
                         JButton t = (JButton) me.getSource();
 
                         temp = t;
-                        t.setBackground(Color.GRAY);
+                        t.setBackground(Color.yellow);
                         pos = Integer.valueOf(t.getText());
 
                     }
                 }
 
                 public void mouseExited(MouseEvent me) {
-                    if (flagP==false ) {
-                        temp.setBackground(Color.cyan);
+                    if (flag) {
+                        if (List.contains(Integer.valueOf(temp.getText()))) {
+                            if (flagP == false) {
+                                temp.setBackground(Color.cyan);
+                            }
+                        }
                     }
                 }
             });
@@ -98,13 +113,19 @@ public class GameSetUp {
             b[i].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    JButton t = (JButton) e.getSource();
-                    flagP = true;
-                    t.setBackground(Color.BLACK);
+                    
+                    if (tempSize > 0) {
+                        JButton t = (JButton) e.getSource();
+                        flagP = true;
+                        t.setBackground(Color.yellow);        
+                        List.remove(Integer.valueOf(t.getText()));
+                        tempSize--;
+                    }
                 }
             });
-
+           
         }
+        
 
         //25 koumpia ploion
         pw5 = new JPanel(new GridLayout(5, 5));
@@ -123,6 +144,8 @@ public class GameSetUp {
                             public void actionPerformed(ActionEvent e) {
                                 flag = true;
                                 size = 3;
+                                tempSize = size;
+                                f.setCursor(cursor);
                             }
                         });
                     }
@@ -134,6 +157,8 @@ public class GameSetUp {
                         public void actionPerformed(ActionEvent e) {
                             flag = true;
                             size = 5;
+                            tempSize = size;
+                            f.setCursor(cur.Cursors());
                         }
                     });
                 }
@@ -145,6 +170,8 @@ public class GameSetUp {
                             public void actionPerformed(ActionEvent e) {
                                 flag = true;
                                 size = 4;
+                                tempSize = size;
+                                f.setCursor(cursor);
                             }
                         });
                     }
@@ -157,6 +184,8 @@ public class GameSetUp {
                             public void actionPerformed(ActionEvent e) {
                                 flag = true;
                                 size = 2;
+                                tempSize = size;
+                                f.setCursor(cursor);
                             }
                         });
                     }
@@ -172,8 +201,7 @@ public class GameSetUp {
         jButton_start.addActionListener(
                 new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e
-            ) {
+            public void actionPerformed(ActionEvent e) {
                 jPanel1.removeAll();
                 jPanel1.repaint();
 
