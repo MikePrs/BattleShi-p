@@ -41,20 +41,15 @@ public class Init {
                         if (i > 0) {
                             Ships[j][i] = Ships[j][i - 1] + 10;
                         }
-
                         if (Ships[j][i] > 99) {
-                            i = 0;
-                          
+                            i = 0; 
                         }
-
                         if (temp.contains(Ships[j][i])) {// in case ships step in another
                             System.out.println("--- same block ---" + Ships[j][i]);
                            j--;
-                            break;
-                            
+                            break;   
                         }
                         temp.add(Ships[j][i]);
-
                     }
                     break;
                 case 0:
@@ -65,112 +60,78 @@ public class Init {
                         if ((Ships[j][i]%10+5 > 9)) { // prevent ship to placed half 
                             System.out.println("------ split line -----" + Ships[j][i]+i);
                              j--;
-                            break;
-                            
+                            break;  
                         }
-
                         if (i > 0) {
                             Ships[j][i] = Ships[j][i - 1] + 1;
-
                         }
                         if (temp.contains(Ships[j][i])) { // in case ships falls on another one 
                             System.out.println("---same block----" + Ships[j][i]);
                              j--;
                             break;
-                           
-
                         }
                         temp.add(Ships[j][i]);
-
                     }
                     break;
-
                 default:
                     break;
             }
-
         }
         for (int k = 0; k < 5; k++) {
             for (int i = 0; i < Ships[k].length; i++) {
                 System.out.println(Ships[k][i]);
-
             }
         }
-
         return Ships;
     }
 
     public ArrayList<Integer> IntList() {
         ArrayList<Integer> List = new ArrayList<>();
-
         for (int i = 0; i < 100; i++) {
             List.add(i);
         }
-
         return List;
     }
 
     public int[][] InitShips() {
         Random rnd = new Random();
         shipPos = IntList();
-
         for (int j = 0; j < 5; j++) {
             Ships[j][0] = rnd.Random(); // random ship start
             int rn = rnd.Random1();  // random direction
             System.out.println(rn);
-
             switch (rn) {
                 case 1:
-
                     for (int i = 0; i < Ships[j].length; i++) { // check boundries
-
                         if (i == 0) {
-
                             Ships[j][i] = rnd.RandomHit(shipPos);
-
                         }
-
                         if (i > 0) {
                             Ships[j][i] = Ships[j][i - 1] + 10;
-                            shipPos.remove(shipPos.indexOf(Ships[j][i]));
+                            shipPos.remove(shipPos.indexOf(Ships[j][i])); 
                         }
-
                     }
                     break;
                 case 0:
-
                     for (int i = 0; i < Ships[j].length; i++) { // check boundries
                         if (i == 0) {
-
                             Ships[j][i] = rnd.RandomHit(shipPos);
                         }
                         if (i > 0) {
-
                             Ships[j][i] = Ships[j][i - 1] + 1;
                             shipPos.remove(shipPos.indexOf(Ships[j][i]));
                         }
-
-//                        if ((Ships[j][i] % 10 == 9) || (Ships[j][i] % 10 == 8)
-//                                || (Ships[j][i] % 10 == 7) || (Ships[j][i] % 10 == 6)) { // prevent ship to placed half 
-//                            System.out.println("------ split line -----" + Ships[j][i]);
-//                            
-//                        }
                     }
                     break;
-
                 default:
                     break;
             }
-
         }
         for (int k = 0; k < 5; k++) {
             for (int i = 0; i < Ships[k].length; i++) {
                 System.out.println(Ships[k][i]);
-
             }
         }
         return Ships;
-
     }
-
 }

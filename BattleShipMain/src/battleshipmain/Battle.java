@@ -24,14 +24,13 @@ import javax.swing.JPanel;
  * @author mikep
  */
 public class Battle extends GameSetUp implements ActionListener {
-
     JPanel panelL = new JPanel(); // left  panel
     JPanel panelLC = new JPanel(); // left center panel 100 btn
 
     JPanel panelR = new JPanel(); // right panel
     JPanel panelRC = new JPanel(); // right center panel 100 btn
 
-    JLabel NameLab = new JLabel("Name Board");
+    JLabel NameLab = new JLabel(name + "'s Board");
     JLabel ComputerLab = new JLabel("Computer's Board");
 
     public JButton[] b1 = new JButton[101];
@@ -39,14 +38,16 @@ public class Battle extends GameSetUp implements ActionListener {
 
     int board[][];
 
-    boolean flag = false;
+    boolean flagg = false;
     boolean flag2 = false;
 
     ArrayList<Integer> rndList = new ArrayList<>();
     ArrayList<Integer> clickList = new ArrayList<>();
+    ArrayList<Integer> finalList = new ArrayList<>();
 
     int count1 = 0, count2 = 0;
     int winCount = 0;
+    int countComp = 0;
 
     public JPanel Battle() {
         JPanel mainPanel = new JPanel();
@@ -60,7 +61,7 @@ public class Battle extends GameSetUp implements ActionListener {
         panelLC.setLayout(new GridLayout(10, 10));
         panelRC.setLayout(new GridLayout(10, 10));
 
-        for (i = 0; i < 100; i++) {
+        for (int i = 0; i < 100; i++) {
             b1[i] = new JButton("" + i);
             b1[i].setBackground(Color.cyan);
 
@@ -74,15 +75,15 @@ public class Battle extends GameSetUp implements ActionListener {
                         clickList.remove(Integer.valueOf(t.getText()));
                         count2++;
                         flag2 = true;
-                        flag = false;
-                        
+                        flagg = false;
+
                         int pos = Integer.parseInt(t.getText());
                         for (int j = 0; j < 5; j++) {
 
-                            for (int i = 0; i < board[j].length; i++) { // -1 eixe 
+                            for (int i = 0; i < board[j].length; i++) {
                                 if (pos == board[j][i]) {
                                     winCount++;
-                                    flag = true;
+                                    flagg = true;
                                     t.setBackground(Color.red);
                                     System.out.println("hit " + t.getText() + " " + count2);
                                     if (winCount == 17) {
@@ -91,7 +92,7 @@ public class Battle extends GameSetUp implements ActionListener {
                                     }
                                     break;
                                 }
-                                if ((flag == false)) {
+                                if ((flagg == false)) {
                                     t.setBackground(Color.blue);
                                     System.out.println("no " + t.getText() + " " + count2);
                                 }
@@ -100,8 +101,16 @@ public class Battle extends GameSetUp implements ActionListener {
 
                         if (flag2 == true) {
                             int x = rnd.RandomHit(rndList);
-
                             b1[x].setBackground(Color.blue);
+                            finalList = getFinalList();
+                            if (List2.contains(x)) {
+                                b1[x].setBackground(Color.red);
+                                countComp++;
+                            }
+                            if (countComp == 17) {
+                                JOptionPane.showOptionDialog(null, "Computer Wins !", "Results", JOptionPane.DEFAULT_OPTION,
+                                        JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
+                            }
 
                             count1++;
                             System.out.println("random computer hit " + b1[x].getText() + " " + count1);
@@ -133,4 +142,5 @@ public class Battle extends GameSetUp implements ActionListener {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+  
 }
