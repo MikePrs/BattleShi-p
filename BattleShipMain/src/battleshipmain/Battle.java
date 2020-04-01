@@ -40,6 +40,7 @@ public class Battle extends GameSetUp implements ActionListener {
 
     ArrayList<Integer> rndList = new ArrayList<>();
     ArrayList<Integer> clickList = new ArrayList<>();
+    ArrayList<Integer> finalList = new ArrayList<>();
 
     int count1 = 0, count2 = 0;
     int winCount = 0;
