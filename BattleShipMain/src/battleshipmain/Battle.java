@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package battleshipmain;
 
 import java.awt.BorderLayout;
@@ -19,10 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-/**
- *
- * @author mikep
- */
+
 public class Battle extends GameSetUp implements ActionListener {
     JPanel panelL = new JPanel(); // left  panel
     JPanel panelLC = new JPanel(); // left center panel 100 btn
@@ -30,7 +22,12 @@ public class Battle extends GameSetUp implements ActionListener {
     JPanel panelR = new JPanel(); // right panel
     JPanel panelRC = new JPanel(); // right center panel 100 btn
 
-    JLabel NameLab = new JLabel(name + "'s Board");
+    
+    GiveName name = new GiveName();
+    String onoma = name.GiveName();
+    
+    
+    JLabel NameLab = new JLabel(onoma + "'s Board");
     JLabel ComputerLab = new JLabel("Computer's Board");
 
     public JButton[] b1 = new JButton[101];
@@ -43,7 +40,6 @@ public class Battle extends GameSetUp implements ActionListener {
 
     ArrayList<Integer> rndList = new ArrayList<>();
     ArrayList<Integer> clickList = new ArrayList<>();
-    ArrayList<Integer> finalList = new ArrayList<>();
 
     int count1 = 0, count2 = 0;
     int winCount = 0;
@@ -87,7 +83,7 @@ public class Battle extends GameSetUp implements ActionListener {
                                     t.setBackground(Color.red);
                                     System.out.println("hit " + t.getText() + " " + count2);
                                     if (winCount == 17) {
-                                        JOptionPane.showOptionDialog(null, "You Win !", "Results", JOptionPane.DEFAULT_OPTION,
+                                        JOptionPane.showOptionDialog(null, name+" is the winner!", "Results", JOptionPane.DEFAULT_OPTION,
                                                 JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
                                     }
                                     break;
@@ -102,8 +98,12 @@ public class Battle extends GameSetUp implements ActionListener {
                         if (flag2 == true) {
                             int x = rnd.RandomHit(rndList);
                             b1[x].setBackground(Color.blue);
-                            finalList = getFinalList();
-                            if (List2.contains(x)) {
+
+                            
+                            System.out.println("Battle List2");
+                            System.out.println(finalList);
+                            
+                            if (finalList.contains(x)) {
                                 b1[x].setBackground(Color.red);
                                 countComp++;
                             }

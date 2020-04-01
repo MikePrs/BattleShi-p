@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package battleshipmain;
 
 import java.awt.BorderLayout;
@@ -24,10 +19,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-/**
- *
- * @author mikep
- */
 public class GameSetUp {
 
     JFrame f = new JFrame();
@@ -223,6 +214,7 @@ public class GameSetUp {
         //2 koumpia katw aristera kai deksia
         jButton_turn = new JButton("Turn");
         jButton_start = new JButton("Start");
+        
         jButton_start.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e
@@ -271,7 +263,6 @@ public class GameSetUp {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setBounds(100, 50, 1050, 600);
         f.setVisible(true);
-        name = JOptionPane.showInputDialog("Enter Name");
     }
 
     public void Placed(String pos, int size) { // method for placing the ships
@@ -281,8 +272,10 @@ public class GameSetUp {
                 b[j].setBackground(Color.yellow);
                 List2.add(j);  // adding to list so we know the coordinates of the ships 
                 flagP = true;
+                
             }
         }
+        System.out.println("GameSetUp List2");
         System.out.println(List2);
     }
 
@@ -320,12 +313,5 @@ public class GameSetUp {
                 System.out.println(j);
             }
         }
-    }
-
-    public ArrayList<Integer> getFinalList() {    // still in progress method 
-        finalList = List2;
-        System.out.println("-----------" + finalList);
-        return finalList;
-
     }
 }
