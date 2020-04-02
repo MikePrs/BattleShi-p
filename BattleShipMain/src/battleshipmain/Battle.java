@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -22,8 +23,8 @@ public class Battle implements ActionListener {
     GiveName name = new GiveName();
     String onoma = name.GiveName();
 
-    JLabel NameLab = new JLabel(onoma + "'s Board");
-    JLabel ComputerLab = new JLabel("Computer's Board");
+    JLabel NameLab = new JLabel("                                                             "+ onoma + "'s Board");
+    JLabel ComputerLab = new JLabel("                                                 Computer's Board");
 
     public JButton[] b1 = new JButton[101];
     public JButton[] b2 = new JButton[101];
@@ -49,7 +50,7 @@ public class Battle implements ActionListener {
         board = in.InitMatrix();
         rndList = in.IntList();
         clickList = in.IntList();
-        System.out.println("Computer s random ship positions " + rndList);
+         System.out.println("Computer s random ship positions " + Arrays.deepToString(board));
         System.out.println("Player battle ship positions " + finalList);
 
         panelLC.setLayout(new GridLayout(10, 10));
@@ -57,11 +58,16 @@ public class Battle implements ActionListener {
 
         for (int i = 0; i < 100; i++) {
             b1[i] = new JButton("" + i);
-            b1[i].setBackground(Color.cyan);
-            b1[i].setForeground(Color.cyan);
+            if (finalList.contains(i)) {
+                b1[i].setBackground(Color.DARK_GRAY);
+            }
+            else{
+                b1[i].setBackground(Color.cyan);
+            }
+            b1[i].setForeground(new Color(0,0,0,0));
             b2[i] = new JButton("" + i);
             b2[i].setBackground(Color.cyan);
-            b2[i].setForeground(Color.cyan);
+            b2[i].setForeground(new Color(0,0,0,0));
             b2[i].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -78,7 +84,7 @@ public class Battle implements ActionListener {
                                     winCount++;
                                     flagg = true;
                                     t.setBackground(Color.red);
-                                    t.setForeground(Color.red);
+                                    t.setForeground(new Color(0,0,0,0));
                                     System.out.println("Player hit " + t.getText() + "Player clicks " + count2);
                                     if (winCount == 17) {
                                         JOptionPane.showOptionDialog(null, onoma + " is the winner!", "Results", JOptionPane.DEFAULT_OPTION,
@@ -87,8 +93,8 @@ public class Battle implements ActionListener {
                                     break;
                                 }
                                 if ((flagg == false)) {
-                                    t.setBackground(Color.blue);
-                                    t.setForeground(Color.blue);
+                                    t.setBackground(Color.white);
+                                    t.setForeground(new Color(0,0,0,0));
                                     System.out.println("Player not hit " + t.getText() + "Player clicks " + count2);
                                 }
                             }
@@ -97,12 +103,12 @@ public class Battle implements ActionListener {
                             int x = rnd.RandomHit(rndList);
                             if (finalList.contains(x)) {
                                 b1[x].setBackground(Color.red);
-                                b1[x].setForeground(Color.red);
+                                b1[x].setForeground(new Color(0,0,0,0));
                                 System.out.println("Computer hit " + x);
                                 countComp++;
                             } else {
-                                b1[x].setBackground(Color.blue);
-                                b1[x].setForeground(Color.blue);
+                                b1[x].setBackground(Color.white);
+                                b1[x].setForeground(new Color(0,0,0,0));
                                 System.out.println("Computer not hit " + x);
                             }
                             if (countComp == 17) {

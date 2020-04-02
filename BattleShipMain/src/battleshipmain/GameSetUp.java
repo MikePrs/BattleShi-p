@@ -60,6 +60,10 @@ public class GameSetUp {
     public int countShipSize3 = 0;
     public boolean flagStart = false;
     public int ShipCounter = 0;
+    
+    public boolean flagWhite3a = false;
+    public boolean flagWhite3b = false;
+
 
     public void GameSetUp() {
         Battle battle = new Battle();
@@ -70,9 +74,9 @@ public class GameSetUp {
         for (int i = 0; i < 100; i++) {
             b[i] = new JButton(i + "");
             b[i].setPreferredSize(new Dimension(60, 60));
+            
             b[i].setBackground(Color.cyan);
-            b[i].setForeground(Color.cyan);
-
+            b[i].setForeground(new Color(0,0,0,0));
             pw.add(b[i]);
         }
 
@@ -119,115 +123,109 @@ public class GameSetUp {
         }
         //25 koumpia ploion
         pw5 = new JPanel(new GridLayout(5, 5));
-        for (int k = 0; k < 5; k++) {
-            for (int j = 0; j < 5; j++) {
-                t[j] = new JButton("" + j);
-                t[j].setPreferredSize(new Dimension(50, 50));
-                t[j].setBackground(Color.white);
-                t[j].setForeground(Color.white);
-                if (k == 0) {                             // ship size 5
-                    t[j].setBackground(Color.black);
-                    t[j].setForeground(Color.black);
+        
+        for (int j = 0; j < 25; j++) {
+            t[j] = new JButton("" + j);
+            t[j].setPreferredSize(new Dimension(50, 50));
+            t[j].setBackground(Color.white);
+            t[j].setForeground(new Color(0,0,0,0));
+            if (j>=0 && j<5) {                             // ship size 5
+                t[j].setBackground(Color.DARK_GRAY);
+                t[j].setForeground(new Color(0,0,0,0));
+                t[j].addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        size = 5;
+                        if (shipCountPlaced.contains(size)) {
+                        } else {  // prevents from double click
+                            flag = true;        // aprove hovering 
+                            flagShip = true;    // preventing from placing 2 times
+                            tempSize = size;
+                            shipCount--;
+                            pw.setCursor(cursor); // change the cursor 
+                        }
+                    }
+                });
+            }
+            if (j>=5 && j<9) {                         // ship size 4
+                    t[j].setBackground(Color.DARK_GRAY);
+                    t[j].setForeground(new Color(0,0,0,0));
                     t[j].addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            size = 5;
+                            size = 4;
                             if (shipCountPlaced.contains(size)) {
-                            } else {  // prevents from double click
-                                flag = true;        // aprove hovering 
-                                flagShip = true;    // preventing from placing 2 times
+                            } else {
+                                flag = true;
+                                flagShip = true;
                                 tempSize = size;
                                 shipCount--;
-                                pw.setCursor(cursor); // change the cursor 
+                                pw.setCursor(cursor);
+                            }
+                        }
+                    });            
+            }
+            if (j>=10 && j<13) {                    // ship size 3
+                    t[j].setBackground(Color.DARK_GRAY);
+                    t[j].setForeground(new Color(0,0,0,0));
+                    t[j].addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            size = 3;
+                            if (shipCountPlaced.contains(size)) {
+                            } else {
+                                flag = true;
+                                flagShip = true;
+                                tempSize = size;
+                                shipCount--;
+                                pw.setCursor(cursor);
+                                flagWhite3a = true;
                             }
                         }
                     });
-                }
-                if (k == 1) {                         // ship size 4
-                    if ((j < 4)) {
-                        t[j].setBackground(Color.black);
-                        t[j].setForeground(Color.black);
-                        t[j].addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                size = 4;
-                                if (shipCountPlaced.contains(size)) {
-                                } else {
-                                    flag = true;
-                                    flagShip = true;
-                                    tempSize = size;
-                                    shipCount--;
-                                    pw.setCursor(cursor);
-                                }
-                            }
-                        });
-                    }
-                }
-                if ((k == 2)) {                  // ship size 3
-                    if ((j < 3)) {
-                        t[j].setBackground(Color.black);
-                        t[j].setForeground(Color.black);
-                        t[j].addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                size = 3;
-                                if (shipCountPlaced.contains(size)) {
-                                } else {
-                                    flag = true;
-                                    flagShip = true;
-                                    tempSize = size;
-                                    shipCount--;
-                                    pw.setCursor(cursor);
-                                }
-                            }
-                        });
-                    }
-                }
-                if ((k == 3)) {                  // ship size 3
-                    if ((j < 3)) {
-                        t[j].setBackground(Color.black);
-                        t[j].setForeground(Color.black);
-                        t[j].addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                size = 3;
-                                if (shipCountPlaced.contains(size)) {
-                                } else {
-                                    flag = true;
-                                    flagShip = true;
-                                    tempSize = size;
-                                    shipCount--;
-                                    pw.setCursor(cursor);
-                                }
-                            }
-                        });
-                    }
-                }
-                if (k == 4) {                        // ship size 2
-                    if ((j < 2)) {
-                        t[j].setBackground(Color.black);
-                        t[j].setForeground(Color.black);
-                        t[j].addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                size = 2;
-                                if (shipCountPlaced.contains(size)) {
-                                } else {
-                                    flag = true;
-                                    flagShip = true;
-                                    tempSize = size;
-                                    shipCount--;
-                                    pw.setCursor(cursor);
-                                }
-                            }
-                        });
-                    }
-                }
-                pw5.add(t[j]);
             }
+            if (j>=15 && j<18) {                   // ship size 3
+                    t[j].setBackground(Color.DARK_GRAY);
+                    t[j].setForeground(new Color(0,0,0,0));
+                    t[j].addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            size = 3;
+                            if (shipCountPlaced.contains(size)) {
+                            } else {
+                                flag = true;
+                                flagShip = true;
+                                tempSize = size;
+                                shipCount--;
+                                pw.setCursor(cursor);
+                                flagWhite3b = true;
+                            }
+                        }
+                    });
+            }
+            if (j>=20 && j<22) {                        // ship size 2
+                    t[j].setBackground(Color.DARK_GRAY);
+                    t[j].setForeground(new Color(0,0,0,0));
+                    t[j].addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            size = 2;
+                            if (shipCountPlaced.contains(size)) {
+                            } else {
+                                flag = true;
+                                flagShip = true;
+                                tempSize = size;
+                                shipCount--;
+                                pw.setCursor(cursor);
+                            }
+                        }
+                    });
+            }
+            pw5.add(t[j]);
         }
+        
         //2 koumpia katw aristera kai deksia
-        jButton_turn = new JButton("Turn");
+        jButton_turn = new JButton("Rotate Ship");
         jButton_turn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -238,10 +236,18 @@ public class GameSetUp {
                     turnFlag = false;
                     turnCount = 0; // turn horizontal
                 }
-
             }
         });
         jButton_start = new JButton("Start");
+        
+//        if (flagStart) {
+//            jButton_start.setEnabled(true);
+//        }
+//        
+//        else{
+//            jButton_start.setEnabled(false);
+//        }
+        
         jButton_start.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -300,7 +306,7 @@ public class GameSetUp {
             for (int j = poss; j < poss + (size * 10); j += 10) { // size is the size of the ship that will be placed 
                 if (flagShip) {
                     if (List.contains(j)) {
-                        b[j].setBackground(Color.yellow);
+                        b[j].setBackground(Color.DARK_GRAY);
                         List2.add(j);  // adding to list so we know the coordinates of the ships 
                         //                    battle.finalList.add(j);
                         flagP = true;
@@ -319,7 +325,7 @@ public class GameSetUp {
             for (int j = poss; j < poss + size; j++) { // size is the size of the ship that will be placed 
                 if (flagShip) {
                     if (List.contains(j)) {
-                        b[j].setBackground(Color.yellow);
+                        b[j].setBackground(Color.DARK_GRAY);
                         List2.add(j);  // adding to list so we know the coordinates of the ships 
                         //                    battle.finalList.add(j);
                         flagP = true;
@@ -339,6 +345,39 @@ public class GameSetUp {
         flagShip = false; // preventing from placing 2 times
         System.out.println("GameSetUp List2 ships placed " + List2);
         System.out.println("Ship count that placed Placed " + shipCountPlaced);
+        
+        if(size==5){
+            for(int k=0;k<size;k++){
+                t[k].setBackground(Color.white);
+                t[k].setForeground(new Color(0,0,0,0)); 
+            }
+        }
+        if(size==4){
+            for(int k=5;k<9;k++){
+                t[k].setBackground(Color.white);
+                t[k].setForeground(new Color(0,0,0,0)); 
+            }
+        }
+        if(size==3 && flagWhite3a){
+            for(int k=10;k<13;k++){
+                t[k].setBackground(Color.white);
+                t[k].setForeground(new Color(0,0,0,0));
+                flagWhite3a = false;
+            }
+        }
+        if(size==3 && flagWhite3b){
+            for(int k=15;k<18;k++){
+                t[k].setBackground(Color.white);
+                t[k].setForeground(new Color(0,0,0,0)); 
+                flagWhite3b = false;
+            }
+        }
+        if(size==2){
+            for(int k=20;k<22;k++){
+                t[k].setBackground(Color.white);
+                t[k].setForeground(new Color(0,0,0,0)); 
+            }
+        }
     }
 
     public void Hover(String pos, int size) { // hovering over buttons 
@@ -349,33 +388,64 @@ public class GameSetUp {
                 if (j <= 99) {
                     if (List2.contains(j) || (poss + (size * 10)) > 110) { // check if the hover is on boundries or on 
                         b[j].setBackground(Color.red);
-                        b[j].setForeground(Color.red);                                                      // other ship 
+                        b[j].setForeground(new Color(0,0,0,0));                                                     // other ship 
                         PlaceFlag = false;
                         System.out.println("hover red ----" + PlaceFlag + j);                               // if it is then RED
                     } else {
-                        b[j].setBackground(Color.yellow);
-                        b[j].setForeground(Color.yellow);                                                   // if its not... yellow
-                        System.out.println("hover yellow----" + PlaceFlag + j);
-                    }
-                }
-            }
-        } else {
-            for (int j = poss; j < poss + size; j++) {
-                if (j <= 99) {
-                    if (List2.contains(j) || ((poss + size - 1) % 10 < (size - 1)) && ((poss) % 10 != 0)) { // check if the hover is on boundries or on 
-                        b[j].setBackground(Color.red);
-                        b[j].setForeground(Color.red);                                                      // other ship 
-                        PlaceFlag = false;
-                        System.out.println("hover red ----" + PlaceFlag + j);                               // if it is then RED
-                    } else {
-                        b[j].setBackground(Color.yellow);
-                        b[j].setForeground(Color.yellow);                                                   // if its not... yellow
-                        System.out.println("hover yellow----" + PlaceFlag + j);
+                        b[j].setBackground(Color.green);
+                        b[j].setForeground(new Color(0,0,0,0));                                                // if its not... green
+                        System.out.println("hover green----" + PlaceFlag + j);
                     }
                 }
             }
         }
-
+        else {
+            for (int j = poss; j < poss + size; j++) {
+                if (j <= 99) {
+                    if (List2.contains(j) || ((poss + size - 1) % 10 < (size - 1)) && ((poss) % 10 != 0)) { // check if the hover is on boundries or on 
+                        b[j].setBackground(Color.red);
+                        b[j].setForeground(new Color(0,0,0,0));                                                      // other ship 
+                        PlaceFlag = false;
+                        System.out.println("hover red ----" + PlaceFlag + j);                               // if it is then RED
+                    } else {
+                        b[j].setBackground(Color.green);
+                        b[j].setForeground(new Color(0,0,0,0));                                                  // if its not... green
+                        System.out.println("hover green----" + PlaceFlag + j);
+                    }
+                }
+            }
+        }
+        
+        if(size==5){
+            for(int k=0;k<size;k++){
+                t[k].setBackground(Color.yellow);
+                t[k].setForeground(new Color(0,0,0,0)); 
+            }
+        }
+        if(size==4){
+            for(int k=5;k<9;k++){
+                t[k].setBackground(Color.yellow);
+                t[k].setForeground(new Color(0,0,0,0)); 
+            }
+        }
+        if(size==3 && flagWhite3a){
+            for(int k=10;k<13;k++){
+                t[k].setBackground(Color.yellow);
+                t[k].setForeground(new Color(0,0,0,0)); 
+            }
+        }
+        if(size==3 && flagWhite3b){
+            for(int k=15;k<18;k++){
+                t[k].setBackground(Color.yellow);
+                t[k].setForeground(new Color(0,0,0,0));
+            }
+        }
+        if(size==2){
+            for(int k=20;k<22;k++){
+                t[k].setBackground(Color.yellow);
+                t[k].setForeground(new Color(0,0,0,0)); 
+            }
+        }
     }
 
     public void HoverOut(String pos, int size) {       // hovering out 
@@ -385,14 +455,14 @@ public class GameSetUp {
             for (int j = poss; j < poss + (size * 10); j += 10) {
                 if (List2.contains(j)) {
                     if (j <= 99) {
-                        b[j].setBackground(Color.yellow);
-                        b[j].setForeground(Color.yellow);
-                        System.out.println("hover out yellow----" + PlaceFlag + j);
+                        b[j].setBackground(Color.DARK_GRAY);
+                        b[j].setForeground(new Color(0,0,0,0));
+                        System.out.println("hover out green----" + PlaceFlag + j);
                     }
                 } else {
                     if (j <= 99) {
                         b[j].setBackground(Color.cyan);      // hovering out of empty block back to cyan OLO MOY TO GANG ANIMAL
-                        b[j].setForeground(Color.cyan);
+                        b[j].setForeground(new Color(0,0,0,0));
                         System.out.println("hover out cyan----" + PlaceFlag + j);
                     }
                 }
@@ -401,14 +471,14 @@ public class GameSetUp {
             for (int j = poss; j < poss + size; j++) {
                 if (List2.contains(j)) {
                     if (j <= 99) {
-                        b[j].setBackground(Color.yellow);
-                        b[j].setForeground(Color.yellow);
-                        System.out.println("hover out yellow----" + PlaceFlag + j);
+                        b[j].setBackground(Color.DARK_GRAY);
+                        b[j].setForeground(new Color(0,0,0,0));
+                        System.out.println("hover out green----" + PlaceFlag + j);
                     }
                 } else {
                     if (j <= 99) {
                         b[j].setBackground(Color.cyan);      // hovering out of empty block back to cyan OLO MOY TO GANG ANIMAL
-                        b[j].setForeground(Color.cyan);
+                        b[j].setForeground(new Color(0,0,0,0));
                         System.out.println("hover out cyan----" + PlaceFlag + j);
                     }
                 }
