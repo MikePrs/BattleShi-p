@@ -15,7 +15,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -42,6 +41,7 @@ public class GameSetUp {
 
     boolean flagP = false;
     public boolean flagC = false;
+    public boolean turnFlag = false;
     public int size = 0;
     public boolean flagShip = false;
     JButton[] tmp = new JButton[size];
@@ -56,8 +56,10 @@ public class GameSetUp {
     public String name;
     boolean PlaceFlag = true;
     public int shipCount = 5;
-    public int[] finalPin = new int[17];
+    public int turnCount = 0;
     public int countShipSize3 = 0;
+    public boolean flagStart = false;
+    public int ShipCounter = 0;
 
     public void GameSetUp() {
         Battle battle = new Battle();
@@ -68,7 +70,8 @@ public class GameSetUp {
         for (int i = 0; i < 100; i++) {
             b[i] = new JButton(i + "");
             b[i].setPreferredSize(new Dimension(60, 60));
-            b[i].setBackground(Color.CYAN);
+            b[i].setBackground(Color.cyan);
+            b[i].setForeground(Color.cyan);
 
             pw.add(b[i]);
         }
@@ -76,6 +79,7 @@ public class GameSetUp {
         for (int i = 0; i < 100; i++) {
             b[i].addMouseListener(new MouseAdapter() {
                 String x;
+
                 public void mouseEntered(MouseEvent me) {
                     if (flag) {
                         JButton t = (JButton) me.getSource();
@@ -87,6 +91,7 @@ public class GameSetUp {
                         }
                     }
                 }
+
                 public void mouseExited(MouseEvent me) {
                     if (flag) {
                         JButton t = (JButton) me.getSource();
@@ -106,7 +111,7 @@ public class GameSetUp {
                         flag = false;
                         String x;
                         x = e.getActionCommand();
-                        System.out.println("Block clicked/firstblock of ship placed "+x);
+                        System.out.println("Block clicked/firstblock of ship placed " + x);
                         Placed(x, size);
                     }
                 }
@@ -116,11 +121,13 @@ public class GameSetUp {
         pw5 = new JPanel(new GridLayout(5, 5));
         for (int k = 0; k < 5; k++) {
             for (int j = 0; j < 5; j++) {
-                t[j] = new JButton(k + "" + j);
+                t[j] = new JButton("" + j);
                 t[j].setPreferredSize(new Dimension(50, 50));
                 t[j].setBackground(Color.white);
+                t[j].setForeground(Color.white);
                 if (k == 0) {                             // ship size 5
                     t[j].setBackground(Color.black);
+                    t[j].setForeground(Color.black);
                     t[j].addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -139,6 +146,7 @@ public class GameSetUp {
                 if (k == 1) {                         // ship size 4
                     if ((j < 4)) {
                         t[j].setBackground(Color.black);
+                        t[j].setForeground(Color.black);
                         t[j].addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -158,6 +166,7 @@ public class GameSetUp {
                 if ((k == 2)) {                  // ship size 3
                     if ((j < 3)) {
                         t[j].setBackground(Color.black);
+                        t[j].setForeground(Color.black);
                         t[j].addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -177,6 +186,7 @@ public class GameSetUp {
                 if ((k == 3)) {                  // ship size 3
                     if ((j < 3)) {
                         t[j].setBackground(Color.black);
+                        t[j].setForeground(Color.black);
                         t[j].addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -196,6 +206,7 @@ public class GameSetUp {
                 if (k == 4) {                        // ship size 2
                     if ((j < 2)) {
                         t[j].setBackground(Color.black);
+                        t[j].setForeground(Color.black);
                         t[j].addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -217,21 +228,34 @@ public class GameSetUp {
         }
         //2 koumpia katw aristera kai deksia
         jButton_turn = new JButton("Turn");
-        jButton_start = new JButton("Start");
+        jButton_turn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (turnCount == 0) {
+                    turnFlag = true;
+                    turnCount = 1; // turn vertical 
+                } else {
+                    turnFlag = false;
+                    turnCount = 0; // turn horizontal
+                }
 
+            }
+        });
+        jButton_start = new JButton("Start");
         jButton_start.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e
-            ) {
-                jPanel1.removeAll();
-                jPanel1.repaint();
-                jPanel1.add(battle.Battle(), BorderLayout.CENTER);
-                BoxLayout boxlayout = new BoxLayout(jPanel1, BoxLayout.X_AXIS);
-                jPanel1.setLayout(boxlayout);
-                jPanel1.setBorder(new EmptyBorder(new Insets(150, 30, 10, 100)));
-                f.add(jPanel1, BorderLayout.CENTER);
-                jPanel1.repaint();
-                f.setVisible(true);
+            public void actionPerformed(ActionEvent e) {
+                if (flagStart) {
+                    jPanel1.removeAll();
+                    jPanel1.repaint();
+                    jPanel1.add(battle.Battle(List2), BorderLayout.CENTER);
+                    BoxLayout boxlayout = new BoxLayout(jPanel1, BoxLayout.X_AXIS);
+                    jPanel1.setLayout(boxlayout);
+                    jPanel1.setBorder(new EmptyBorder(new Insets(150, 30, 10, 100)));
+                    f.add(jPanel1, BorderLayout.CENTER);
+                    jPanel1.repaint();
+                    f.setVisible(true);
+                }
             }
         }
         );
@@ -268,58 +292,125 @@ public class GameSetUp {
 
     public void Placed(String pos, int size) { // method for placing the ships
         int poss = Integer.valueOf(pos);  // the value for the first block 
-
-        for (int j = poss; j < poss + size; j++) { // size is the size of the ship that will be placed 
-            if (flagShip) {
-                if (List.contains(j)) {
-                    b[j].setBackground(Color.yellow);
-                    List2.add(j);  // adding to list so we know the coordinates of the ships 
-                    flagP = true;
-                    if (size == 3) {
-                        countShipSize3++;
-                        if (countShipSize3 > 3) {
+        ShipCounter++;
+        if (ShipCounter == 5) {
+            flagStart = true;
+        }
+        if (turnFlag) {
+            for (int j = poss; j < poss + (size * 10); j += 10) { // size is the size of the ship that will be placed 
+                if (flagShip) {
+                    if (List.contains(j)) {
+                        b[j].setBackground(Color.yellow);
+                        List2.add(j);  // adding to list so we know the coordinates of the ships 
+                        //                    battle.finalList.add(j);
+                        flagP = true;
+                        if (size == 3) {
+                            countShipSize3++;
+                            if (countShipSize3 > 3) {
+                                shipCountPlaced.add(size);
+                            }
+                        } else {
                             shipCountPlaced.add(size);
                         }
-                    } else {
-                        shipCountPlaced.add(size);
+                    }
+                }
+            }
+        } else {
+            for (int j = poss; j < poss + size; j++) { // size is the size of the ship that will be placed 
+                if (flagShip) {
+                    if (List.contains(j)) {
+                        b[j].setBackground(Color.yellow);
+                        List2.add(j);  // adding to list so we know the coordinates of the ships 
+                        //                    battle.finalList.add(j);
+                        flagP = true;
+                        if (size == 3) {
+                            countShipSize3++;
+                            if (countShipSize3 > 3) {
+                                shipCountPlaced.add(size);
+                            }
+                        } else {
+                            shipCountPlaced.add(size);
+                        }
                     }
                 }
             }
         }
+        turnFlag = false;// turning flag 
         flagShip = false; // preventing from placing 2 times
-        System.out.println("GameSetUp List2 Ships placed " + List2);
-        System.out.println("Ship Count that placed Placed " + shipCountPlaced);
+        System.out.println("GameSetUp List2 ships placed " + List2);
+        System.out.println("Ship count that placed Placed " + shipCountPlaced);
     }
 
     public void Hover(String pos, int size) { // hovering over buttons 
         int poss = Integer.valueOf(pos); // hovering the first block 
         PlaceFlag = true;
-        for (int j = poss; j < poss + size; j++) {
-            if (j <= 99) {
-                if (List2.contains(j) || ((poss + size - 1) % 10 < (size - 1)) && ((poss) % 10 != 0)) { // check if the hover is on boundries or on 
-                    b[j].setBackground(Color.red);                                                      // other ship 
-                    PlaceFlag = false;
-                    System.out.println("hover red ----" + PlaceFlag + j);                                      // if it is then RED
-                } else {
-                    b[j].setBackground(Color.yellow);                                                   // if its not yellow
-                    System.out.println("hover yellow----" + PlaceFlag + j);
+        if (turnFlag) {  // turning flag kafter click 
+            for (int j = poss; j < poss + (size * 10); j += 10) {
+                if (j <= 99) {
+                    if (List2.contains(j) || (poss + (size * 10)) > 110) { // check if the hover is on boundries or on 
+                        b[j].setBackground(Color.red);
+                        b[j].setForeground(Color.red);                                                      // other ship 
+                        PlaceFlag = false;
+                        System.out.println("hover red ----" + PlaceFlag + j);                               // if it is then RED
+                    } else {
+                        b[j].setBackground(Color.yellow);
+                        b[j].setForeground(Color.yellow);                                                   // if its not... yellow
+                        System.out.println("hover yellow----" + PlaceFlag + j);
+                    }
+                }
+            }
+        } else {
+            for (int j = poss; j < poss + size; j++) {
+                if (j <= 99) {
+                    if (List2.contains(j) || ((poss + size - 1) % 10 < (size - 1)) && ((poss) % 10 != 0)) { // check if the hover is on boundries or on 
+                        b[j].setBackground(Color.red);
+                        b[j].setForeground(Color.red);                                                      // other ship 
+                        PlaceFlag = false;
+                        System.out.println("hover red ----" + PlaceFlag + j);                               // if it is then RED
+                    } else {
+                        b[j].setBackground(Color.yellow);
+                        b[j].setForeground(Color.yellow);                                                   // if its not... yellow
+                        System.out.println("hover yellow----" + PlaceFlag + j);
+                    }
                 }
             }
         }
+
     }
 
     public void HoverOut(String pos, int size) {       // hovering out 
-        int poss = Integer.valueOf(pos); // hovering out the first block 
-        for (int j = poss; j < poss + size; j++) {
-            if (List2.contains(j)) {
-                if (j <= 99) {
-                    b[j].setBackground(Color.yellow);
-                    System.out.println("hover out yellow----" + PlaceFlag + j);
+        int poss = Integer.valueOf(pos);               // hovering out the first block 
+
+        if (turnFlag) {
+            for (int j = poss; j < poss + (size * 10); j += 10) {
+                if (List2.contains(j)) {
+                    if (j <= 99) {
+                        b[j].setBackground(Color.yellow);
+                        b[j].setForeground(Color.yellow);
+                        System.out.println("hover out yellow----" + PlaceFlag + j);
+                    }
+                } else {
+                    if (j <= 99) {
+                        b[j].setBackground(Color.cyan);      // hovering out of empty block back to cyan OLO MOY TO GANG ANIMAL
+                        b[j].setForeground(Color.cyan);
+                        System.out.println("hover out cyan----" + PlaceFlag + j);
+                    }
                 }
-            } else {
-                if (j <= 99) {
-                    b[j].setBackground(Color.cyan);  // hovering out of empty block back to cyan OLO MOY TO GANG ANIMAL
-                    System.out.println("hover out cyan----" + PlaceFlag + j);
+            }
+        } else {
+            for (int j = poss; j < poss + size; j++) {
+                if (List2.contains(j)) {
+                    if (j <= 99) {
+                        b[j].setBackground(Color.yellow);
+                        b[j].setForeground(Color.yellow);
+                        System.out.println("hover out yellow----" + PlaceFlag + j);
+                    }
+                } else {
+                    if (j <= 99) {
+                        b[j].setBackground(Color.cyan);      // hovering out of empty block back to cyan OLO MOY TO GANG ANIMAL
+                        b[j].setForeground(Color.cyan);
+                        System.out.println("hover out cyan----" + PlaceFlag + j);
+                    }
                 }
             }
         }

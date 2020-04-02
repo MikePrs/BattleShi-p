@@ -2,31 +2,26 @@ package battleshipmain;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+public class Battle implements ActionListener {
 
-public class Battle extends GameSetUp implements ActionListener {
     JPanel panelL = new JPanel(); // left  panel
     JPanel panelLC = new JPanel(); // left center panel 100 btn
 
     JPanel panelR = new JPanel(); // right panel
     JPanel panelRC = new JPanel(); // right center panel 100 btn
 
-    
     GiveName name = new GiveName();
     String onoma = name.GiveName();
-    
-    
+
     JLabel NameLab = new JLabel(onoma + "'s Board");
     JLabel ComputerLab = new JLabel("Computer's Board");
 
@@ -40,13 +35,13 @@ public class Battle extends GameSetUp implements ActionListener {
 
     ArrayList<Integer> rndList = new ArrayList<>();
     ArrayList<Integer> clickList = new ArrayList<>();
-    ArrayList<Integer> finalList = new ArrayList<>();
 
+    public int[] finalPin2 = new int[17];
     int count1 = 0, count2 = 0;
     int winCount = 0;
     int countComp = 0;
 
-    public JPanel Battle() {
+    public JPanel Battle(ArrayList<Integer> finalList) {
         JPanel mainPanel = new JPanel();
         Init in = new Init();
         Random rnd = new Random();
@@ -54,6 +49,8 @@ public class Battle extends GameSetUp implements ActionListener {
         board = in.InitMatrix();
         rndList = in.IntList();
         clickList = in.IntList();
+        System.out.println("Computer s random ship positions " + rndList);
+        System.out.println("Player battle ship positions " + finalList);
 
         panelLC.setLayout(new GridLayout(10, 10));
         panelRC.setLayout(new GridLayout(10, 10));
@@ -61,9 +58,10 @@ public class Battle extends GameSetUp implements ActionListener {
         for (int i = 0; i < 100; i++) {
             b1[i] = new JButton("" + i);
             b1[i].setBackground(Color.cyan);
-
+            b1[i].setForeground(Color.cyan);
             b2[i] = new JButton("" + i);
             b2[i].setBackground(Color.cyan);
+            b2[i].setForeground(Color.cyan);
             b2[i].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -73,55 +71,51 @@ public class Battle extends GameSetUp implements ActionListener {
                         count2++;
                         flag2 = true;
                         flagg = false;
-
                         int pos = Integer.parseInt(t.getText());
                         for (int j = 0; j < 5; j++) {
-
                             for (int i = 0; i < board[j].length; i++) {
                                 if (pos == board[j][i]) {
                                     winCount++;
                                     flagg = true;
                                     t.setBackground(Color.red);
-                                    System.out.println("hit " + t.getText() + " " + count2);
+                                    t.setForeground(Color.red);
+                                    System.out.println("Player hit " + t.getText() + "Player clicks " + count2);
                                     if (winCount == 17) {
-                                        JOptionPane.showOptionDialog(null, name+" is the winner!", "Results", JOptionPane.DEFAULT_OPTION,
+                                        JOptionPane.showOptionDialog(null, onoma + " is the winner!", "Results", JOptionPane.DEFAULT_OPTION,
                                                 JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
                                     }
                                     break;
                                 }
                                 if ((flagg == false)) {
                                     t.setBackground(Color.blue);
-                                    System.out.println("no " + t.getText() + " " + count2);
+                                    t.setForeground(Color.blue);
+                                    System.out.println("Player not hit " + t.getText() + "Player clicks " + count2);
                                 }
                             }
                         }
-
                         if (flag2 == true) {
                             int x = rnd.RandomHit(rndList);
-                            b1[x].setBackground(Color.blue);
-
-                            
-                            System.out.println("Battle List2");
-                            System.out.println(finalList);
-                            
                             if (finalList.contains(x)) {
                                 b1[x].setBackground(Color.red);
+                                b1[x].setForeground(Color.red);
+                                System.out.println("Computer hit " + x);
                                 countComp++;
+                            } else {
+                                b1[x].setBackground(Color.blue);
+                                b1[x].setForeground(Color.blue);
+                                System.out.println("Computer not hit " + x);
                             }
                             if (countComp == 17) {
                                 JOptionPane.showOptionDialog(null, "Computer Wins !", "Results", JOptionPane.DEFAULT_OPTION,
                                         JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
                             }
-
                             count1++;
-                            System.out.println("random computer hit " + b1[x].getText() + " " + count1);
                         }
                     }
                 }
             });
             panelRC.add(b2[i]);
             panelLC.add(b1[i]);
-
         }
 
         panelL.setLayout(new BorderLayout());
@@ -143,5 +137,4 @@ public class Battle extends GameSetUp implements ActionListener {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-  
 }

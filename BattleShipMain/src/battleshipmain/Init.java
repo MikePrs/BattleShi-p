@@ -12,7 +12,6 @@ public class Init {
     public int[] Ship1 = new int[2];
     ArrayList<Integer> temp = new ArrayList<>();
     ArrayList<Integer> shipPos = new ArrayList<>();
-    // public int[] tempShip;
     int Ships[][] = {Ship1, Ship2, Ship3, Ship4, Ship5};
 
     public int[][] InitMatrix() {
@@ -36,7 +35,7 @@ public class Init {
                             i = 0; 
                         }
                         if (temp.contains(Ships[j][i])) {// in case ships step in another
-                            System.out.println("--- same block ---" + Ships[j][i]);
+                            System.out.println("---same block---" + Ships[j][i]);
                            j--;
                             break;   
                         }
@@ -49,7 +48,7 @@ public class Init {
                             Ships[j][0] = rnd.Random(); // random ship start
                         }
                         if ((Ships[j][i]%10+5 > 9)) { // prevent ship to placed half 
-                            System.out.println("------ split line -----" + Ships[j][i]+i);
+                            System.out.println("---split line---" + Ships[j][i]+i);
                              j--;
                             break;  
                         }
@@ -66,11 +65,6 @@ public class Init {
                     break;
                 default:
                     break;
-            }
-        }
-        for (int k = 0; k < 5; k++) {
-            for (int i = 0; i < Ships[k].length; i++) {
-                System.out.println(Ships[k][i]);
             }
         }
         return Ships;
@@ -90,7 +84,7 @@ public class Init {
         for (int j = 0; j < 5; j++) {
             Ships[j][0] = rnd.Random(); // random ship start
             int rn = rnd.Random1();  // random direction
-            System.out.println(rn);
+            System.out.println("Direction "+rn);
             switch (rn) {
                 case 1:
                     for (int i = 0; i < Ships[j].length; i++) { // check boundries
@@ -116,11 +110,6 @@ public class Init {
                     break;
                 default:
                     break;
-            }
-        }
-        for (int k = 0; k < 5; k++) {
-            for (int i = 0; i < Ships[k].length; i++) {
-                System.out.println(Ships[k][i]);
             }
         }
         return Ships;
