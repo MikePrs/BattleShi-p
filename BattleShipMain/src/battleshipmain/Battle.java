@@ -50,7 +50,7 @@ public class Battle implements ActionListener {
         board = in.InitMatrix();
         rndList = in.IntList();
         clickList = in.IntList();
-         System.out.println("Computer s random ship positions " + Arrays.deepToString(board));
+        System.out.println("Computer s random ship positions " + Arrays.deepToString(board));
         System.out.println("Player battle ship positions " + finalList);
 
         panelLC.setLayout(new GridLayout(10, 10));
