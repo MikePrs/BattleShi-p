@@ -19,12 +19,13 @@ public class Battle implements ActionListener {
 
     JPanel panelR = new JPanel(); // right panel
     JPanel panelRC = new JPanel(); // right center panel 100 btn
-
+    
+    
     GiveName name = new GiveName();
-    String onoma = name.GiveName();
+    String onoma = name.SetName();
 
     JLabel NameLab = new JLabel("                                                             "+ onoma + "'s Board");
-    JLabel ComputerLab = new JLabel("                                                 Computer's Board");
+    JLabel ComputerLab = new JLabel("                                                            Computer's Board");
 
     public JButton[] b1 = new JButton[101];
     public JButton[] b2 = new JButton[101];
