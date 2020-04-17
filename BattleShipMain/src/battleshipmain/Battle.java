@@ -21,7 +21,7 @@ public class Battle implements ActionListener {
     JPanel panelRC = new JPanel(); // right center panel 100 btn
     
     
-    GiveName name = new GiveName();
+    Actions name = new Actions();
     String onoma = name.SetName();
 
     JLabel NameLab = new JLabel("                                                             "+ onoma + "'s Board");

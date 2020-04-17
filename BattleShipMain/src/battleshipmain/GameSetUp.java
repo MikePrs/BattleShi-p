@@ -47,7 +47,7 @@ public class GameSetUp {
     public int ShipCounter = 0;
 
     Ships ships[] = new Ships[6];
-
+    Boolean flagShip3 = true ;
     public void GameSetUp() {
         Actions ac = new Actions();
         ships[5] = new Ships("5", 5);
@@ -102,7 +102,7 @@ public class GameSetUp {
                         String x;
                         x = e.getActionCommand();
                         System.out.println("Block clicked/firstblock of ship placed " + x);
-                        ac.Placed(x, size, b, t, List2, List, ships);
+                        ac.Placed(x, size, b, t, List2, List, ships,shipCountPlaced);
                         for (int i = 1; i <= 5; i++) {
                             System.out.println("----------------");
                             System.out.println("Ship with ID : " + ships[i].getId() + "  in positions : " + ships[i].getPos());
@@ -180,14 +180,14 @@ public class GameSetUp {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         size = ships[1].getSize();
-                        if (shipCountPlaced.contains(size)) {
-                        } else {
+                        if (shipCountPlaced.contains(size) && flagShip3 ) {
                             flag = true;
                             ac.flagShip = true;
                             tempSize = size;
                             shipCount--;
                             pw.setCursor(cursor);
                             ac.flagWhite3b = true;
+                            flagShip3 = false ;
                         }
                     }
                 });

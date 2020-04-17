@@ -3,6 +3,7 @@ package battleshipmain;
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 public class Actions extends GameSetUp {
 
@@ -12,8 +13,13 @@ public class Actions extends GameSetUp {
     public boolean flagWhite3a = false;
     public boolean flagWhite3b = false;
     public boolean flagStart = false;
+    
+    public String SetName() {
+        String name=JOptionPane.showInputDialog("Enter Your Name:");
+        return name;   
+    }
 
-    public void Placed(String pos, int size, JButton[] b, JButton t[], ArrayList<Integer> List2, ArrayList<Integer> List, Ships ships[]) { // method for placing the ships
+    public void Placed(String pos, int size, JButton[] b, JButton t[], ArrayList<Integer> List2, ArrayList<Integer> List, Ships ships[],ArrayList<Integer> shipCountPlaced) { // method for placing the ships
         int poss = Integer.valueOf(pos); // the value for the first block
         ShipCounter++;
         if (ShipCounter == 5) {
