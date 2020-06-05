@@ -28,4 +28,8 @@ public class Ships {
     public void setPos(int j) {
        this.pos.add(j) ;
     }
+
+    int getPos(int i) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

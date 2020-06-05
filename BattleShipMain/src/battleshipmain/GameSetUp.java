@@ -31,7 +31,7 @@ public class GameSetUp {
 
     boolean flag = false;
     boolean flagP = false;
-    public boolean flagC = false;
+    boolean flagC = false;
 
     public ArrayList<Integer> List = new ArrayList<>();
     public ArrayList<Integer> List2 = new ArrayList<>();
@@ -47,8 +47,8 @@ public class GameSetUp {
     public int ShipCounter = 0;
 
     Ships ships[] = new Ships[6];
-    Boolean flagShip3 = true ;
     public void GameSetUp() {
+        
         Actions ac = new Actions();
         ships[5] = new Ships("5", 5);
         ships[4] = new Ships("4", 4);
@@ -97,7 +97,7 @@ public class GameSetUp {
             b[i].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (ac.PlaceFlag) { // if you go to click on placed ship
+                    if (ac.PlaceFlag && !ac.flagStart) { // if you go to click on placed ship
                         flag = false;
                         String x;
                         x = e.getActionCommand();
@@ -106,6 +106,28 @@ public class GameSetUp {
                         for (int i = 1; i <= 5; i++) {
                             System.out.println("----------------");
                             System.out.println("Ship with ID : " + ships[i].getId() + "  in positions : " + ships[i].getPos());
+                        } 
+                    }
+                    
+                    else if (ac.flagStart) { // Replace
+                        String x;
+                        x = e.getActionCommand();
+                        if(List2.contains(Integer.valueOf(x))){
+                            ac.flagReplace = true;
+                            int sn = ac.Replace(x, b, List2, ships);
+        
+                            size = ships[sn].getSize(); // takings from ships the size
+                            flag = true; // aprove hovering
+                            ac.flagShip = true; // preventing from placing 2 times
+                            tempSize = size;
+                            shipCount--;
+                            ac.flagStart = false;
+                            ac.ShipCounter-=ships[sn].getSize();
+                            
+                            List2.clear();
+                            for (int j = 1; j <=5; j++) {
+                                List2.addAll(ships[j].getPos());
+                            }                            
                         }
                     }
                 }
@@ -118,6 +140,7 @@ public class GameSetUp {
             t[j].setPreferredSize(new Dimension(50, 50));
             t[j].setBackground(Color.white);
             t[j].setForeground(new Color(0, 0, 0, 0));
+            
             if (j >= 0 && j < 5) {                      // ship size 5
                 t[j].setBackground(Color.DARK_GRAY);
                 t[j].setForeground(new Color(0, 0, 0, 0));
@@ -126,7 +149,8 @@ public class GameSetUp {
                     public void actionPerformed(ActionEvent e) {
                         size = ships[5].getSize(); // takings from ships the size
                         if (shipCountPlaced.contains(size)) {
-                        } else { // prevents from double click
+                        } 
+                        else { // prevents from double click
                             flag = true; // aprove hovering
                             ac.flagShip = true; // preventing from placing 2 times
                             tempSize = size;
@@ -144,7 +168,8 @@ public class GameSetUp {
                     public void actionPerformed(ActionEvent e) {
                         size = ships[4].getSize();
                         if (shipCountPlaced.contains(size)) {
-                        } else {
+                        } 
+                        else {
                             flag = true;
                             ac.flagShip = true;
                             tempSize = size;
@@ -154,7 +179,7 @@ public class GameSetUp {
                     }
                 });
             }
-            if (j >= 10 && j < 13) {                // ship size 3
+            if (j >= 10 && j < 13) {                // ship size 3a
                 t[j].setBackground(Color.DARK_GRAY);
                 t[j].setForeground(new Color(0, 0, 0, 0));
                 t[j].addActionListener(new ActionListener() {
@@ -162,7 +187,8 @@ public class GameSetUp {
                     public void actionPerformed(ActionEvent e) {
                         size = ships[3].getSize();
                         if (shipCountPlaced.contains(size)) {
-                        } else {
+                        } 
+                        else {
                             flag = true;
                             ac.flagShip = true;
                             tempSize = size;
@@ -173,22 +199,21 @@ public class GameSetUp {
                     }
                 });
             }
-            if (j >= 15 && j < 18) {                // ship size 3
+            if (j >= 15 && j < 18) {                // ship size 3b
                 t[j].setBackground(Color.DARK_GRAY);
                 t[j].setForeground(new Color(0, 0, 0, 0));
                 t[j].addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         size = ships[1].getSize();
-                        if (shipCountPlaced.contains(size) && flagShip3 ) {
+                        if (shipCountPlaced.contains(size) ) {
                             flag = true;
                             ac.flagShip = true;
                             tempSize = size;
                             shipCount--;
                             pw.setCursor(cursor);
                             ac.flagWhite3b = true;
-                            flagShip3 = false ;
-                        }
+                            }
                     }
                 });
             }
